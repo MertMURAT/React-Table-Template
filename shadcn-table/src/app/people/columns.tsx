@@ -39,7 +39,17 @@ export const columns: ColumnDef<Person>[] = [
         accessorKey: "email",
     },
     {
-        header: "Date Of Birth",
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }}>
+
+                    Date Of Birth
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         accessorKey: "date_of_birth",
         cell: ({ row }) => {
             const date_of_birth = row.getValue("date_of_birth");
