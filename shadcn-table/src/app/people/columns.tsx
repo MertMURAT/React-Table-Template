@@ -45,7 +45,7 @@ export const columns: ColumnDef<Person>[] = [
             const personId = person.id
             return (
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild>
                         <Button variant='ghost' className="w-8 h-8 p-0">
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
@@ -53,9 +53,9 @@ export const columns: ColumnDef<Person>[] = [
                     <DropdownMenuContent>
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                        onClick={() => {
-                            navigator.clipboard.writeText(person.first_name.toString()); // Örneğin: kişinin id si alınıp silme işlemi uygulanabilir.
-                        }}>
+                            onClick={() => {
+                                navigator.clipboard.writeText(person.first_name.toString()); // Örneğin:     kişinin id si alınıp silme işlemi uygulanabilir.
+                            }}>
                             Copy person name
                         </DropdownMenuItem>
                     </DropdownMenuContent>

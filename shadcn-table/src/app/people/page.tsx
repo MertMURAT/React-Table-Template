@@ -1,4 +1,3 @@
-"use client"
 import React from 'react'
 import PeopleDataTable from './data-table'
 import { columns } from './columns'
