@@ -22,5 +22,10 @@ export const columns: ColumnDef<Person>[] = [
     {
         header: "Date Of Birth",
         accessorKey: "date_of_birth",
+        cell: ({ row }) => {
+            const date_of_birth = row.getValue("date_of_birth");
+            const formatted = new Date(date_of_birth as string).toDateString();
+            return <div className="font-medium" > {formatted} </div>
+        }
     },
 ];
