@@ -11,8 +11,29 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/src/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export const columns: ColumnDef<Person>[] = [
+    {
+        id: 'select',
+        header: ({ table }) => {
+            return <Checkbox checked={table.getIsAllPageRowsSelected()}
+                onCheckedChange={(value) => {
+                    table.toggleAllPageRowsSelected(!!value);
+                }}
+            />
+        },
+        cell: ({ row }) => {
+            return <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => {
+                    row.toggleSelected(!!value)
+                }}
+            />
+        },
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         header: ({ column }) => {
             return (
@@ -37,6 +58,10 @@ export const columns: ColumnDef<Person>[] = [
     {
         header: "Email",
         accessorKey: "email",
+    },
+    {
+        header: "Gender",
+        accessorKey: "gender",
     },
     {
         header: ({ column }) => {

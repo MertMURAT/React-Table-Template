@@ -3,6 +3,7 @@
 import {
     ColumnDef,
     ColumnFiltersState,
+    RowSelectionState,
     SortingState,
     VisibilityState,
     flexRender,
@@ -40,7 +41,10 @@ export function PeopleDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+    const [rowSelection, setRowSelection] = React.useState({})
+
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+    console.log("Row Selection State", rowSelection);
 
     const table = useReactTable({
         data,
@@ -53,10 +57,12 @@ export function PeopleDataTable<TData, TValue>({
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
         state: {
             sorting,
             columnFilters,
             columnVisibility,
+            rowSelection,
         },
     });
 
@@ -159,6 +165,10 @@ export function PeopleDataTable<TData, TValue>({
                 >
                     Next
                 </Button>
+            </div>
+            <div className="flext-1 text-sm text-muted-foreground">
+                {table.getFilteredSelectedRowModel().rows.length} of {` `}
+                {table.getFilteredRowModel().rows.length} row(s) selected
             </div>
         </div >
     );
