@@ -27,7 +27,7 @@ import React from 'react'
 import { Button } from "@/src/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { DropdownMenuCheckboxItem, DropdownMenuContent } from "@/components/ui/dropdown-menu"
+import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "@/components/ui/theme-toggle"
 import { downloadToExcel } from "@/src/lib/xlsx"
 
@@ -46,6 +46,13 @@ export function PeopleDataTable<TData, TValue>({
 
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
 
+    const [pagination, setPagination] = React.useState({
+        pageIndex: 0,
+        pageSize: 10
+    }); // Pagination ayarları
+
+    console.log("DATA", data);
+
     const table = useReactTable({
         data,
         columns,
@@ -63,8 +70,17 @@ export function PeopleDataTable<TData, TValue>({
             columnFilters,
             columnVisibility,
             rowSelection,
+            pagination,
         },
+        onPaginationChange: (updater) => {
+            setPagination((old) => ({
+                ...old,
+                ...typeof updater === 'function' ? updater(old) : updater,
+            }));
+        },
+        pageCount: Math.ceil(data.length / pagination.pageSize), // Toplam sayfa sayısı
     });
+
 
     return (
         <div>
@@ -79,9 +95,9 @@ export function PeopleDataTable<TData, TValue>({
                     className="max-w-sm"
                 />
 
-                <Button 
-                className="ml-4"
-                onClick={() => downloadToExcel()}>
+                <Button
+                    className="ml-4"
+                    onClick={() => downloadToExcel()}>
                     Export to Excel
                 </Button>
 
@@ -106,6 +122,57 @@ export function PeopleDataTable<TData, TValue>({
                                 </DropdownMenuCheckboxItem>
                             )
                         })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant='outline' className="ml-4">
+                            Page Size
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuLabel>Page Size</DropdownMenuLabel>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setPagination(prev => ({
+                                    ...prev,
+                                    pageSize: 10
+                                }));
+                            }}
+                        >
+                            10
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setPagination(prev => ({
+                                    ...prev,
+                                    pageSize: 20
+                                }));
+                            }}
+                        >
+                            20
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setPagination(prev => ({
+                                    ...prev,
+                                    pageSize: 50
+                                }));
+                            }}
+                        >
+                            50
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setPagination(prev => ({
+                                    ...prev,
+                                    pageSize: 100
+                                }));
+                            }}
+                        >
+                            100
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -163,6 +230,19 @@ export function PeopleDataTable<TData, TValue>({
                 >
                     Previous
                 </Button>
+                <Input
+                    type="number"
+                    min={1}
+                    max={table.getPageCount()}
+                    value={table.getState().pagination.pageIndex + 1} // 1 tabanlı göstermek için +1
+                    onChange={(e) => {
+                        const newPageIndex = parseInt(e.target.value, 10) - 1; // 0 tabanlı iç değer için -1
+                        if (!isNaN(newPageIndex) && newPageIndex >= 0 && newPageIndex < table.getPageCount()) {
+                            table.setPageIndex(newPageIndex);
+                        }
+                    }}
+                    className="w-20 text-center"
+                />
                 <Button
                     variant='outline'
                     size='sm'
@@ -170,6 +250,7 @@ export function PeopleDataTable<TData, TValue>({
                         table.nextPage();
                     }}
                     disabled={!table.getCanNextPage()}
+                    className="px-6"
                 >
                     Next
                 </Button>
