@@ -30,6 +30,7 @@ import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu
 import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "@/components/ui/theme-toggle"
 import { downloadToExcel } from "@/src/lib/xlsx"
+import { Filter } from "./Filter"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -190,6 +191,11 @@ export function PeopleDataTable<TData, TValue>({
                                                     header.column.columnDef.header,
                                                     header.getContext()
                                                 )}
+                                                {header.column.getCanFilter() ? (
+                                                    <div>
+                                                        <Filter column={header.column} table={table} />
+                                                    </div>
+                                                ) : null}
                                             </TableHead>
                                         )
                                     })}
@@ -281,7 +287,7 @@ export function PeopleDataTable<TData, TValue>({
                         defaultValue={table.getState().pagination.pageIndex + 1}
                         onChange={e => {
                             if (Number(e.target.value) > table.getPageCount()) {
-                                table.setPageIndex(table.getPageCount()) 
+                                table.setPageIndex(table.getPageCount())
                             }
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)

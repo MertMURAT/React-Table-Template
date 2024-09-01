@@ -21,6 +21,7 @@ export const columns: ColumnDef<Person>[] = [
                 onCheckedChange={(value) => {
                     table.toggleAllPageRowsSelected(!!value);
                 }}
+                className="translate-y-5"
             />
         },
         cell: ({ row }) => {
@@ -39,7 +40,9 @@ export const columns: ColumnDef<Person>[] = [
             return (
                 <Button variant='ghost' onClick={() => {
                     column.toggleSorting(column.getIsSorted() === "asc");
-                }}>
+                }}
+                className="translate-y-3 translate-x-0"
+                >
                     Person ID
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
@@ -48,19 +51,55 @@ export const columns: ColumnDef<Person>[] = [
         accessorKey: "id",
     },
     {
-        header: "First Name",
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                }}>
+                    First Name
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         accessorKey: "first_name",
     },
     {
-        header: "Last Name",
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                }}>
+                    Last Name
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         accessorKey: "last_name",
     },
     {
-        header: "Email",
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                }}>
+                    Email
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         accessorKey: "email",
     },
     {
-        header: "Gender",
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                }}>
+                    Gender
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         accessorKey: "gender",
     },
     {
