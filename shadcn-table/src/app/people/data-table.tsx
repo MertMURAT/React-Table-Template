@@ -27,8 +27,8 @@ import React from 'react'
 import { Button } from "@/src/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { MoreHorizontal } from "lucide-react"
 import { DropdownMenuCheckboxItem, DropdownMenuContent } from "@/components/ui/dropdown-menu"
+import { ModeToggle } from "@/components/ui/theme-toggle"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -44,7 +44,6 @@ export function PeopleDataTable<TData, TValue>({
     const [rowSelection, setRowSelection] = React.useState({})
 
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-    console.log("Row Selection State", rowSelection);
 
     const table = useReactTable({
         data,
@@ -78,6 +77,8 @@ export function PeopleDataTable<TData, TValue>({
                     }}
                     className="max-w-sm"
                 />
+
+                <ModeToggle className="ml-4" />
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
