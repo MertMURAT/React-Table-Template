@@ -81,7 +81,7 @@ export function PeopleDataTable<TData, TValue>({
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant='outline' className="ml-auto">
+                        <Button variant='outline' className="ml-4">
                             Columns
                         </Button>
                     </DropdownMenuTrigger>
@@ -127,7 +127,7 @@ export function PeopleDataTable<TData, TValue>({
                             table.getRowModel().rows.map(row => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map(cell => (
-                                        <TableCell>
+                                        <TableCell key={cell.id}>
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
