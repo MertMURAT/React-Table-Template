@@ -221,6 +221,14 @@ export function PeopleDataTable<TData, TValue>({
             {/* pagination */}
             <div className="flex items-center justify-start space-x-2 py-4">
                 <Button
+                    className="border rounded p-1"
+                    onClick={() => table.firstPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    variant="outline"
+                >
+                    {'<<'}
+                </Button>
+                <Button
                     variant='outline'
                     size='sm'
                     onClick={() => {
@@ -230,19 +238,7 @@ export function PeopleDataTable<TData, TValue>({
                 >
                     Previous
                 </Button>
-                <Input
-                    type="number"
-                    min={1}
-                    max={table.getPageCount()}
-                    value={table.getState().pagination.pageIndex + 1} // 1 tabanlı göstermek için +1
-                    onChange={(e) => {
-                        const newPageIndex = parseInt(e.target.value, 10) - 1; // 0 tabanlı iç değer için -1
-                        if (!isNaN(newPageIndex) && newPageIndex >= 0 && newPageIndex < table.getPageCount()) {
-                            table.setPageIndex(newPageIndex);
-                        }
-                    }}
-                    className="w-20 text-center"
-                />
+
                 <Button
                     variant='outline'
                     size='sm'
@@ -254,6 +250,45 @@ export function PeopleDataTable<TData, TValue>({
                 >
                     Next
                 </Button>
+                <Button
+                    className="border rounded p-1"
+                    onClick={() => table.lastPage()}
+                    disabled={!table.getCanNextPage()}
+                    variant="outline"
+                >
+                    {'>>'}
+                </Button>
+
+                <select
+                    value={table.getState().pagination.pageSize}
+                    onChange={e => {
+                        table.setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[10, 20, 50, 100].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+
+                <span className="flex items-center justify-end gap-1">
+                    Go to page:
+                    <Input
+                        type="number"
+                        min="1"
+                        max={table.getPageCount()}
+                        defaultValue={table.getState().pagination.pageIndex + 1}
+                        onChange={e => {
+                            if (Number(e.target.value) > table.getPageCount()) {
+                                table.setPageIndex(table.getPageCount()) 
+                            }
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0
+                            table.setPageIndex(page)
+                        }}
+                        className="border p-1 rounded w-16 text-center"
+                    />
+                </span>
             </div>
             <div className="flext-1 text-sm text-muted-foreground">
                 {table.getFilteredSelectedRowModel().rows.length} of {` `}
