@@ -87,11 +87,21 @@ export function PeopleDataTable<TData, TValue>({
         <div>
             {/* input */}
             <div className="flex items-center py-4">
-                <Input
+                {/* <Input
                     placeholder="Filter First Names"
                     value={table.getColumn('first_name')?.getFilterValue() as string || ""}
                     onChange={(e) => {
                         table.getColumn("first_name")?.setFilterValue(e.target.value);
+                    }}
+                    className="max-w-sm"
+                /> */}
+
+                <Input
+                    placeholder="Filter by First Name, Last Name, or Email"
+                    value={table.getState().globalFilter || ""}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        table.setGlobalFilter(value);
                     }}
                     className="max-w-sm"
                 />
