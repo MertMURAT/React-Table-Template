@@ -29,6 +29,7 @@ import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { DropdownMenuCheckboxItem, DropdownMenuContent } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "@/components/ui/theme-toggle"
+import { downloadToExcel } from "@/src/lib/xlsx"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -77,6 +78,12 @@ export function PeopleDataTable<TData, TValue>({
                     }}
                     className="max-w-sm"
                 />
+
+                <Button 
+                className="ml-4"
+                onClick={() => downloadToExcel()}>
+                    Export to Excel
+                </Button>
 
                 <ModeToggle className="ml-4" />
 
