@@ -96,15 +96,28 @@ export function PeopleDataTable<TData, TValue>({
                     className="max-w-sm"
                 /> */}
 
-                <Input
-                    placeholder="Filter by First Name, Last Name, or Email"
-                    value={table.getState().globalFilter || ""}
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        table.setGlobalFilter(value);
-                    }}
-                    className="max-w-sm"
-                />
+
+                <div className="relative max-w-sm">
+                    <Input
+                        placeholder="Search by Table"
+                        value={table.getState().globalFilter || ""}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            table.setGlobalFilter(value);
+                        }}
+                        className="w-full pr-10"
+                    />
+                    <Button
+                        onClick={() => {
+                            table.resetGlobalFilter();
+                        }}
+                        className="absolute top-1.5 right-1 h-7 w-7 flex items-center justify-center"
+                        variant="destructive"
+                    >
+                        X
+                    </Button>
+                </div>
+
 
                 <Button
                     className="ml-4"
